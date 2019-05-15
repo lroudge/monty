@@ -50,7 +50,7 @@ char **strtow(char *str)
 
 	for (i = 0; i <= len; i++)
 	{
-		if (str[i] == ' ' || str[i] == '\0' || str[i] == '\n')
+		if (isspace(str[i]) || str[i] == '\0' || str[i] == '\n')
 		{
 			if (c)
 			{
