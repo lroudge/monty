@@ -1,24 +1,32 @@
 #include "monty.h"
+#include "lists.h"
 
 /**
  * get_func - selects the right function
- * @line: line from the bytecode file passed to main
+ * @parsed: line from the bytecode file passed to main
  *
  * Return: pointer to the selected function, or NULL on failure
  */
-void (*get_func(char *line))(stack_t **, unsigned int)
+void (*get_func(char **parsed))(stack_t **, unsigned int)
 {
 	instruction_t func_arr[] = {
 		{"push", push_handler},
-		{"pall", pall_handler}
+		{"pall", pall_handler},
+		{"pint", pint_handler},
+		{"pop", pop_handler},
+		{"swap", swap_handler},
+		{"add", add_handler},
+		{"nop", nop_handler}
 	};
 
-	int codes = 2, i;
+	int codes = 7, i;
 
 	for (i = 0; i < codes; i++)
 	{
-		if (strncmp(func_arr[i].opcode, line, 4) == 0)
+		if (strcmp(func_arr[i].opcode, parsed[0]) == 0)
+		{
 			return (func_arr[i].f);
+		}
 	}
 	return (NULL);
 }
@@ -32,40 +40,24 @@ void push_handler(stack_t **stack, unsigned int line_number)
 {
 	stack_t *new;
 	int num = 0, i;
-	char *bcode = strtok(current_line, " ");
 
-	if (strcmp(bcode, "push") != 0)
+	for (i = 0; data.words[1][i]; i++)
 	{
-		dprintf(STDERR_FILENO, "L%u: unknown instruction %s\n", line_number, bcode);
-		return;
-	}
-
-	bcode = strtok(NULL, " ");
-	for (i = 0; bcode[i]; i++)
-	{
-		if (isalpha(bcode[i]) != 0)
+		if (isalpha(data.words[1][i]) != 0)
 		{
 			dprintf(STDERR_FILENO, "L%u: usage: push integer\n", line_number);
+			free_all(1);
 			exit(EXIT_FAILURE);
 		}
 	}
-
-	num = atoi(bcode);
-
-	new = malloc(sizeof(stack_t));
+	num = atoi(data.words[1]);
+	new = add_dnodeint(stack, num);
 	if (!new)
 	{
-		dprintf(STDERR_FILENO, "Error: malloc failed\n");
-		return;
+		dprintf(2, "Error: malloc failed\n");
+		free_all(1);
+		exit(EXIT_FAILURE);
 	}
-
-	new->n = num;
-	new->next = *stack;
-	new->prev = NULL;
-
-	if (*stack)
-		(*stack)->prev = new;
-	*stack = new;
 }
 
 /**
@@ -75,20 +67,6 @@ void push_handler(stack_t **stack, unsigned int line_number)
  */
 void pall_handler(stack_t **stack, unsigned int line_number)
 {
-	stack_t *h;
-	char *bcode = strtok(current_line, " ");
-
-	if (strncmp(bcode, "pall", 4) != 0)
-	{
-		dprintf(2, "L%u: unknown instruction %s\n", line_number, bcode);
-		return;
-	}
-
-	h = *stack;
-
-	while (h)
-	{
-		printf("%d\n", h->n);
-		h = h->next;
-	}
+	(void)line_number;
+	print_dlistint(*stack);
 }

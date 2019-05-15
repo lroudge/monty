@@ -1,6 +1,7 @@
 #include "monty.h"
+#include "lists.h"
 
-char *current_line;
+data_t data = DATA_INIT;
 
 /**
  * monty - helper function for main function
@@ -14,18 +15,15 @@ void monty(args_t *args)
 {
 	size_t len = 0;
 	int get = 0;
-	FILE *fptr;
-	char *line = NULL;
 	void (*code_func)(stack_t **, unsigned int);
-	stack_t *stack = NULL;
 
 	if (args->ac != 2)
 	{
 		dprintf(STDERR_FILENO, "USAGE: monty file\n");
 		exit(EXIT_FAILURE);
 	}
-	fptr = fopen(args->av, "r");
-	if (!fptr)
+	data.fptr = fopen(args->av, "r");
+	if (!data.fptr)
 	{
 		dprintf(STDERR_FILENO, "Error: Can't open file %s\n", args->av);
 		exit(EXIT_FAILURE);
@@ -33,25 +31,27 @@ void monty(args_t *args)
 	while (1)
 	{
 		args->line_number++;
-		get = getline(&line, &len, fptr);
+		get = getline(&(data.line), &len, data.fptr);
 		if (get < 0)
 			break;
-		while (*line == ' ')
-			line++;
-		if (strcmp(line, "\n") == 0)
+		if (data.line[0] != '\n')
+			data.words = strtow(data.line);
+		else
+		{
+			free_all(0);
 			continue;
-		current_line = line;
-		code_func = get_func(line);
+		}
+		code_func = get_func(data.words);
 		if (!code_func)
 		{
-			dprintf(2, "L%u: unknown instruction %s", args->line_number, line);
-			free(line);
+			dprintf(2, "L%u: unknown instruction %s", args->line_number, data.line);
+			free_all(1);
 			exit(EXIT_FAILURE);
 		}
-		code_func(&stack, args->line_number);
+		code_func(&(data.stack), args->line_number);
+		free_all(0);
 	}
-	fclose(fptr);
-	free(stack);
+	free_all(1);
 }
 
 /**
