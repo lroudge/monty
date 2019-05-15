@@ -43,7 +43,7 @@ void push_handler(stack_t **stack, unsigned int line_number)
 
 	if (data.words[1] == NULL)
 	{
-		dprintf(STDERR_FILENO, "L%u: usage: push integer\n", line_number);
+		dprintf(STDERR_FILENO, PUSH_FAIL, line_number);
 		free_all(1);
 		exit(EXIT_FAILURE);
 	}
@@ -52,7 +52,7 @@ void push_handler(stack_t **stack, unsigned int line_number)
 	{
 		if (isalpha(data.words[1][i]) != 0)
 		{
-			dprintf(STDERR_FILENO, "L%u: usage: push integer\n", line_number);
+			dprintf(STDERR_FILENO, PUSH_FAIL, line_number);
 			free_all(1);
 			exit(EXIT_FAILURE);
 		}
@@ -61,7 +61,7 @@ void push_handler(stack_t **stack, unsigned int line_number)
 	new = add_dnodeint(stack, num);
 	if (!new)
 	{
-		dprintf(2, "Error: malloc failed\n");
+		dprintf(STDERR_FILENO, MALLOC_FAIL);
 		free_all(1);
 		exit(EXIT_FAILURE);
 	}
