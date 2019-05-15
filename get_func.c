@@ -22,10 +22,11 @@ void (*get_func(char **parsed))(stack_t **, unsigned int)
 		{"mul", mul_handler},
 		{"mod", mod_handler},
 		{"pchar", pchar_handler},
+		{"pstr", pstr_handler},
 		{NULL, NULL}
 	};
 
-	int codes = 12, i;
+	int codes = 13, i;
 
 	for (i = 0; i < codes; i++)
 	{

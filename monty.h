@@ -113,6 +113,7 @@ void mod_handler(stack_t **stack, unsigned int line_number);
 
 /* char.c */
 void pchar_handler(stack_t **stack, unsigned int line_number);
+void pstr_handler(stack_t **stack, unsigned int line_number);
 
 /* strtow.c */
 int count_word(char *s);
