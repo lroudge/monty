@@ -75,5 +75,6 @@ void push_handler(stack_t **stack, unsigned int line_number)
 void pall_handler(stack_t **stack, unsigned int line_number)
 {
 	(void)line_number;
-	print_dlistint(*stack);
+	if (*stack)
+		print_dlistint(*stack);
 }
