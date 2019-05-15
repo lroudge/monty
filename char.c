@@ -8,22 +8,22 @@
  */
 void pchar_handler(stack_t **stack, unsigned int line_number)
 {
-	stack_t *node = get_dnodeint_at_index(*stack, 0);
-	int c = node->n;
+	stack_t *node = *stack;
 
-	if (!stack)
+	if (!node)
 	{
 		dprintf(STDERR_FILENO, PCHAR_FAIL, line_number);
 		free_all(1);
 		exit(EXIT_FAILURE);
 	}
 
-	if (c < 0 || c > 127)
+	if (node->n < 0 || node->n > 127)
 	{
 		dprintf(STDERR_FILENO, PCHAR_RANGE, line_number);
 		free_all(1);
 		exit(EXIT_FAILURE);
 	}
 
-	printf("%c\n", c);
+	putchar(node->n);
+	putchar('\n');
 }
