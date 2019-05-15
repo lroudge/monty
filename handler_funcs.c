@@ -49,7 +49,7 @@ void swap_handler(stack_t **stack, unsigned int line_number)
 	stack_t *temp = *stack, *node = NULL;
 	int num;
 
-	if (!temp)
+	if (dlistint_len(*stack) < 2)
 	{
 		dprintf(STDERR_FILENO, SWAP_FAIL, line_number);
 		free_all(1);
@@ -90,7 +90,7 @@ void add_handler(stack_t **stack, unsigned int line_number)
 	sum = node_0->n + node_1->n;
 	delete_dnodeint_at_index(stack, 0);
 	delete_dnodeint_at_index(stack, 0);
-	node = insert_dnodeint_at_index(stack, 0, sum);
+	node = add_dnodeint(stack, sum);
 	if (!node)
 	{
 		dprintf(STDERR_FILENO, MALLOC_FAIL);
