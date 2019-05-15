@@ -75,13 +75,16 @@ extern data_t data;
 #define DATA_INIT {NULL, NULL, NULL, NULL}
 #define USAGE "USAGE: monty file\n"
 #define FILE_ERROR "Error: Can't open file %s\n"
-#define UNKNOWN "L%u: unknown instruction %s"
+#define UNKNOWN "L%u: unknown instruction %s\n"
 #define MALLOC_FAIL "Error: malloc failed\n"
 #define PUSH_FAIL "L%u: usage: push integer\n"
 #define PINT_FAIL "L%u: can't pint, stack empty\n"
 #define POP_FAIL "L%u: can't pop an empty stack\n"
 #define SWAP_FAIL "L%u: can't swap, stack too short\n"
 #define ADD_FAIL "L%u: can't add, stack too short\n"
+#define SUB_FAIL "L%u: can't sub, stack too short\n"
+#define DIV_FAIL "L%u: can't div, stack too short\n"
+#define DIV_ZERO "L%u: division by zero\n"
 
 /* main.c */
 void monty(args_t *args);
@@ -91,12 +94,16 @@ void (*get_func(char **parsed))(stack_t **, unsigned int);
 void push_handler(stack_t **stack, unsigned int line_number);
 void pall_handler(stack_t **stack, unsigned int line_number);
 
-/* handler_funcs.c */
+/* handler_funcs1.c */
 void pint_handler(stack_t **stack, unsigned int line_number);
 void pop_handler(stack_t **stack, unsigned int line_number);
 void swap_handler(stack_t **stack, unsigned int line_number);
 void add_handler(stack_t **stack, unsigned int line_number);
 void nop_handler(stack_t **stack, unsigned int line_number);
+
+/* handler_funcs2.c */
+void sub_handler(stack_t **stack, unsigned int line_number);
+void div_handler(stack_t **stack, unsigned int line_number);
 
 /* strtow.c */
 int count_word(char *s);

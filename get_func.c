@@ -16,10 +16,12 @@ void (*get_func(char **parsed))(stack_t **, unsigned int)
 		{"pop", pop_handler},
 		{"swap", swap_handler},
 		{"add", add_handler},
-		{"nop", nop_handler}
+		{"nop", nop_handler},
+		{"sub", sub_handler},
+		{"div", div_handler}
 	};
 
-	int codes = 7, i;
+	int codes = 9, i;
 
 	for (i = 0; i < codes; i++)
 	{
