@@ -12,6 +12,9 @@ void rotl_handler(stack_t **stack, unsigned int line_number)
 	int num  = 0;
 
 	(void)line_number;
+
+	if (*stack == NULL)
+		return;
 	temp = get_dnodeint_at_index(*stack, 0);
 	num = temp->n;
 	delete_dnodeint_at_index(stack, 0);
@@ -29,6 +32,9 @@ void rotr_handler(stack_t **stack, unsigned int line_number)
 	int num = 0, len = dlistint_len(*stack);
 
 	(void)line_number;
+
+	if (*stack == NULL)
+		return;
 	temp = get_dnodeint_at_index(*stack, len - 1);
 	num = temp->n;
 	delete_dnodeint_at_index(stack, len - 1);
