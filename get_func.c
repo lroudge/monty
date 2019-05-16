@@ -23,10 +23,12 @@ void (*get_func(char **parsed))(stack_t **, unsigned int)
 		{"mod", mod_handler},
 		{"pchar", pchar_handler},
 		{"pstr", pstr_handler},
+		{"rotl", rotl_handler},
+		{"rotr", rotr_handler},
 		{NULL, NULL}
 	};
 
-	int codes = 13, i;
+	int codes = 15, i;
 
 	for (i = 0; i < codes; i++)
 	{

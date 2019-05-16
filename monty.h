@@ -111,6 +111,10 @@ void div_handler(stack_t **stack, unsigned int line_number);
 void mul_handler(stack_t **stack, unsigned int line_number);
 void mod_handler(stack_t **stack, unsigned int line_number);
 
+/* handler_funcs3.c */
+void rotl_handler(stack_t **stack, unsigned int line_number);
+void rotr_handler(stack_t **stack, unsigned int line_number);
+
 /* char.c */
 void pchar_handler(stack_t **stack, unsigned int line_number);
 void pstr_handler(stack_t **stack, unsigned int line_number);
