@@ -25,10 +25,12 @@ void (*get_func(char **parsed))(stack_t **, unsigned int)
 		{"pstr", pstr_handler},
 		{"rotl", rotl_handler},
 		{"rotr", rotr_handler},
+		{"stack", stack_handler},
+		{"queue", queue_handler},
 		{NULL, NULL}
 	};
 
-	int codes = 15, i;
+	int codes = 17, i;
 
 	for (i = 0; i < codes; i++)
 	{
@@ -67,7 +69,11 @@ void push_handler(stack_t **stack, unsigned int line_number)
 		}
 	}
 	num = atoi(data.words[1]);
-	new = add_dnodeint(stack, num);
+
+	if (data.qflag == 0)
+		new = add_dnodeint(stack, num);
+	else if (data.qflag == 1)
+		new = add_dnodeint_end(stack, num);
 	if (!new)
 	{
 		dprintf(STDERR_FILENO, MALLOC_FAIL);

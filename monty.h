@@ -59,6 +59,7 @@ typedef struct args_s
  * @words: parsed line
  * @stack: pointer to the stack
  * @fptr: file pointer
+ * @qflag: flag for queue or stack
  */
 typedef struct data_s
 {
@@ -66,13 +67,15 @@ typedef struct data_s
 	char **words;
 	stack_t *stack;
 	FILE *fptr;
+	int qflag;
 } data_t;
 
 typedef stack_t dlistint_t;
 
 extern data_t data;
 
-#define DATA_INIT {NULL, NULL, NULL, NULL}
+#define DATA_INIT {NULL, NULL, NULL, NULL, 0}
+
 #define USAGE "USAGE: monty file\n"
 #define FILE_ERROR "Error: Can't open file %s\n"
 #define UNKNOWN "L%u: unknown instruction %s\n"
@@ -114,6 +117,8 @@ void mod_handler(stack_t **stack, unsigned int line_number);
 /* handler_funcs3.c */
 void rotl_handler(stack_t **stack, unsigned int line_number);
 void rotr_handler(stack_t **stack, unsigned int line_number);
+void stack_handler(stack_t **stack, unsigned int line_number);
+void queue_handler(stack_t **stack, unsigned int line_number);
 
 /* char.c */
 void pchar_handler(stack_t **stack, unsigned int line_number);
